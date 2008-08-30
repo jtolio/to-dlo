@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %} To-Dlo! - Settings {% endblock %}
+{% block header %} Settings {% endblock %}
+
+{% block body %}
+
+<table><tr><th>Phone number</th><td></td><td></td></tr>
+{% for phone_number in phone_numbers %}
+<tr>
+<td>{{ phone_number.phone_number }}</td>
+
+<td><form method="post" action="/dashboard/settings/delete_phone/{{phone_number.key_id}}">
+<input type="submit" value="delete"/></form></td>
+
+<td>
+{% if not phone_number.enabled %}
+Please send <code><b>ACTIVATETODLO {{phone_number.register_key}}</b></code> to 41411 on your cellphone.
+{% endif %}
+</td>
+</tr>
+{% endfor %}
+</table>
+
+<form action="/dashboard/settings/add_phone" method="post">
+<table>
+<tr><td><input type="text" name="new_phone_number"/></td><td><input type="submit" value="Add phone" /></td></tr>
+</table>
+</form>
+
+{% endblock %}

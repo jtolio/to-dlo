@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="en-us" />
+  <title>To-Dlo!</title>
+  <link rel="stylesheet" type="text/css" href="/static/landing.css"/>
+
+</head><body>
+
+  <div id="navigation">
+    <ul>
+    {% if user %}
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="{{logout_url}}">Logout</a></li>
+    {% else %}
+      <li><a href="/dashboard">Login</a></li>
+    {% endif %}
+    </ul>
+  </div>
+
+  <h1>
+    <img src="/static/logo.png" alt="ToDlo! It's like todo with an L!" />
+  </h1>
+
+  <div id="bottom_links">
+      <a href="/about">About</a>
+      <a href="/faq">FAQ</a>
+      <a href="/support">Support</a>
+      <span style="padding-left: 20px;">
+        &copy; Copyright 2008, <a href="http://jtolds.com/">JT Olds</a>
+      </span>
+  </div>
+
+</body></html>
