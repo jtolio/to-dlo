@@ -6,7 +6,7 @@
   <title>{% block title %}To-Dlo!{% endblock %}</title>
   <link rel="stylesheet" type="text/css" href="/static/site.css"/>
   {% block head %} {% endblock %}
-</head><body>
+</head><body {% block body_tags %} {% endblock %}>
 
 <div id="header">
 <table width="930"><tr><td width="1">
