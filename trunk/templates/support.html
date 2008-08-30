@@ -1,0 +1,21 @@
+{% extends "static_base.html" %}
+
+{% block title %}To-Dlo! - Support{% endblock %}
+{% block header %}Support{% endblock %}
+
+{% block static_body %}
+
+<form method="post">
+
+<table>
+<tr><td colspan="2"><h2>Contact the team</h2></td></tr>
+<tr><td align="right">Your email:</td><td align="right"><input name="sender_email" type="text" size="35" {% if user %} value="{{user.email}}" {%endif%}/></td></tr>
+<tr><td align="right">Subject:</td><td align="right"><input name="subject" maxlength="100" size="35" type="text"/></td></tr>
+<tr><td colspan="2" align="right"><textarea name="message" rows="13" cols="60"></textarea><br/>
+<input type="submit" value="Send"/>
+</td></tr></table>
+
+</form>
+
+
+{% endblock %}

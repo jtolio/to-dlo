@@ -1,0 +1,41 @@
+{% extends "static_base.html" %}
+
+{% block title %}To-Dlo! - About{% endblock %}
+{% block header %}About{% endblock %}
+
+{% block static_body %}
+
+<h2>To-Dlo is cool</h2>
+
+<p>
+  Many of the most successful web applications follow the mantra of <i>do one
+  thing, and do it well</i>, so I figured I could at least try for the former.
+  To-Dlo is basic to-do list management application, accessible from your
+  cellphone via SMS (text messaging). I have plans for more cool and helpful
+  todo list management features, but I'm just one guy. <a href="/support">Let me
+  know</a> if you want something added.
+</p><p>
+  The first version of To-Dlo was written in class during a week of grad
+  school. It only took a few hours to implement all of the basic functionality.
+  To-Dlo was very simple to write, using
+  <a href="http://appengine.google.com/">Google App Engine</a> and
+  <a href="http://www.textmarks.com/">TextMarks</a> for all of the
+  infrastructure. This very infrastructure is available to you, too, entirely
+  for free. Hooray for clouds.
+</p><p>
+  To-Dlo competes with services such as
+  <a href="http://www.reqall.com/">reQall</a>,
+  <a href="http://evernote.com/">Evernote</a>,
+  <a href="http://www.kwiry.com/">Kwiry</a>, and the notepad in my pocket.
+  The reason To-Dlo was written is because none of these services are simply
+  just to-do lists that are completely manageable by SMS. I'm sure it would be
+  really easy features for them to add, but they don't have it. reQall doesn't
+  receive text messages (though it can send reminders), Evernote doesn't have
+  an SMS shortcode, though it can receive emails from phones, Kwiry isn't
+  really a to-do list, and the notepad in my pocket, though awesome, does not
+  have an RSS feed, interface with my email, or support data redundancy. So
+  instead of waiting for these services to get it right, I wrote To-Dlo.
+</p>
+
+
+{% endblock %}

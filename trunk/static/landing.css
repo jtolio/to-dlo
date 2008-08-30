@@ -1,0 +1,68 @@
+html {
+    padding: 0px;
+    margin: 0px;
+}
+body {
+    background: #0c50ff;
+    color: white;
+    font-family: Verdana, sans-serif;
+    line-height: 1.46em;
+    font-size: 10pt;
+    padding: 70px 0 20px 0;
+    margin: auto;
+    width: 820px;
+    text-align: center;
+}
+
+div#navigation, div#navigation ul, div#navigation ul li {
+    margin: 0px;
+    padding: 0px;
+}
+div#navigation {
+    float: right;
+    width: 100px;
+    font-size: 12pt;
+    text-align: left;
+    padding-top: 60px;
+    padding-left: 10px;
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 0px;
+    padding: 0px;
+}
+
+h1 {
+    margin-bottom: 80px;
+}
+
+div#navigation ul li {
+    display: block;
+    margin-bottom: 20px;
+}
+
+a, a:visited {
+    text-decoration: none;
+    padding: 5px;
+    color: white;
+}
+
+a:active, a:hover {
+    text-decoration: underline;
+}
+
+div#navigation a, div#navigation a:visited {
+    background: #0c50ff;
+    border: 1px solid white;
+}
+
+div#navigation a:hover, div#navigation a:active {
+    background: white;
+    border: 1px solid #0c50ff;
+    color: #0c50ff;
+    text-decoration: none;
+}
+
+div#bottom_links {
+    margin: auto;
+}

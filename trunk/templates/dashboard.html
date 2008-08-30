@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %} To-Dlo! - Dashboard {% endblock %}
+{% block header %} Dashboard {% endblock %}
+
+{% block body %}
+
+<p><b style="color:red;">Warning:</b> This is currently an alpha quality application! Until this app moves out of alpha, your data may get deleted randomly during updates. A better UI and more features are coming soon!</p>
+
+<form action="/dashboard/new" method="post">
+<input type="text" name="title"/><input type="submit" value="add"/>
+</form>
+
+<p>You can also add items to your dashboard by text messaging <b><code>TODLO &lt;your item&gt;</code></b> to 41411.</p>
+
+<form action="/dashboard/batch_edit" method="post">
+<table>
+<tr><th>Completed?</th><th>Title</th><th>Created</th><th>Last modified</th></tr>
+{% for todo_item in todo_items %}
+{% ifchanged todo_item.completed %}{% if not forloop.first %}
+<tr><td colspan="4"><hr/></td></tr>
+{% endif %}{% endifchanged %}
+<tr>
+  <td><input type="checkbox" name="completed[]" value="{{todo_item.key_id}}" {% if todo_item.completed %} checked="checked" {% endif %}/></td>
+  <td><a href="/dashboard/edit/{{ todo_item.key_id }}">{{ todo_item.title }}</a></td>
+  <td>{{todo_item.ctime}}</td>
+  <td>{{todo_item.mtime}}</td>
+</tr>
+{% endfor %}
+</table>
+<input type="hidden" name="all_items" value="{% for todo_item in todo_items %}{{todo_item.key_id}},{% endfor %}"/>
+<input type="submit" value="submit"/>
+</form>
+
+
+<table>
+<tr><th>Completed?</th><th>Title</th><th>Created</th><th>Last modified</th></tr>
+{% for todo_item in archived_todo_items %}
+{% ifchanged todo_item.completed %}{% if not forloop.first %}
+<tr><td colspan="4"><hr/></td></tr>
+{% endif %}{% endifchanged %}
+<tr>
+  <td>{{ todo_item.completed }}</td>
+  <td><a href="/dashboard/edit/{{ todo_item.key_id }}">{{ todo_item.title }}</a></td>
+  <td>{{todo_item.ctime}}</td>
+  <td>{{todo_item.mtime}}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}
