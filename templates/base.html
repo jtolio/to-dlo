@@ -4,14 +4,14 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Language" content="en-us" />
   <title>{% block title %}To-Dlo!{% endblock %}</title>
-  <link rel="stylesheet" type="text/css" href="/static/site.css"/>
+  <link rel="stylesheet" type="text/css" href="/static/css/site.css"/>
   {% block head %} {% endblock %}
 </head><body {% block body_tags %} {% endblock %}>
 
 <div id="header">
-<table width="930"><tr><td width="1">
+<table width="910"><tr><td width="1">
 {% if user %} <a href="/dashboard"> {% else %} <a href="/"> {% endif %}
-<img src="/static/logo-small.png" alt="ToDlo!"/></a>
+<img src="/static/images/logo-small.png" alt="ToDlo!"/></a>
 </td><td width="1">
 <h1>{% block header %}{% endblock %}</h1></td><td id="navigation">
 <ul>

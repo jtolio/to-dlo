@@ -1,17 +1,13 @@
 {% extends "base.html" %}
 
 {% block head %}
-<script src="/static/ext-base.js"></script>
-<script src="/static/ext-all.js"></script>
-<script src="/static/dashboard.js"></script>
+<script src="/static/js/dashboard.js"></script>
 {% endblock %}
-
-{% block body_tags %} onload="dashboard_load();" {% endblock %}
 
 {% block title %} To-Dlo! - Dashboard {% endblock %}
 {% block header %} Dashboard {% endblock %}
-
-{#  block body %}
+{% block body_tags %} onload="dashboard_load();" {% endblock %}
+{% block body %}
 
 <p><b style="color:red;">Warning:</b> This is currently an alpha quality application! Until this app moves out of alpha, your data may get deleted randomly during updates. A better UI and more features are coming soon!</p>
 
@@ -56,4 +52,4 @@
 {% endfor %}
 </table>
 
-{% endblock #}
+{% endblock %}
