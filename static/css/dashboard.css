@@ -1,0 +1,51 @@
+#dashboard div {
+    border:0px;
+    padding: 0px;
+    margin: 0px;
+}
+div#dashboard {
+    background: white;
+}
+div#tabbar {
+    background:white;
+    display:block;
+}
+
+div#tabbar ul, div#tabbar ul li {
+    display: inline;
+    padding: 0px; margin: 0px;
+}
+
+div#menubar {
+    background:#0c50ff;
+    color: white;
+}
+div#menubar ul, div#menubar ul li {
+    display: inline;
+    padding: 0px; margin: 0px;
+}
+div#menubar a, div#menubar a:visited {
+    color: white;
+}
+
+div#detailbox {
+    width: 400px;
+    float: right;
+}
+div#itembox {
+    width: 496px;
+    background:white;
+    float: left;
+    min-height: 320px;
+    border-right: 4px solid #0c50ff;
+}
+div#statusbar {
+    background:orange;
+    width: 900px;
+    clear: both;
+}
+div#messagebar {
+    background:orange;
+    width: 900px;
+    text-align: center;
+}
