@@ -121,3 +121,8 @@ div#inner_body {
     padding: 20px 10px 10px 40px;
     width:700px;
 }
+
+.textmessage {
+    font-weight: bold;
+    font-family: fixed;
+}
