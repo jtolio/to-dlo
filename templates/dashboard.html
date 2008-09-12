@@ -17,37 +17,30 @@
 <div id="dashboard">
 
 
-<div id="messagebar">You can also add items to your dashboard by text messaging
+<div id="messagebar"><span style="color:purple;">This is <b>ALPHA</b> quality software! Your data might disappear between upgrades! Look for the beta soon!</span>
+<br/>You can also add items to your dashboard by text messaging
 <span class="textmessage">TODLO &lt;your item&gt;</span> to 41411.</div>
 
 <div id="tabbar">
 <ul>
-<li><a href="#" onclick="switch_tab('Inbox'); return true;">Inbox</a></li>
-<li><a href="#" onclick="switch_tab('Archives'); return true;">Archives</a></li>
-</ul>
+<li id="tab_Inbox" class="selected">
+<a href="#" onclick="switch_tab('Inbox'); return true;">Inbox</a></li>
+<li id="tab_Completed">
+<a href="#" onclick="switch_tab('Completed'); return true;">Completed</a></li>
+</ul></div><div id="menubar">
+{% include "menu_bar.html" %}
 </div>
 
-<div id="menubar">
-<ul>
-<li><a href="#" onclick="add_item(); return true;">Add</a></li>
-<li><a href="#" onclick="complete_items(); return true;">Complete</a></li>
-<li><a href="#" onclick="archive_items(); return true;">Archive</a></li>
-</ul>
-</div>
-
-<div id="detailbox"></div>
+<div id="detailbox">
+<div style="float: right">
+<a href="#" onclick="remove_details(); return true;">[X]</a></div>
+<div id="detailbox_content">
+</div></div>
 
 <div id="itembox">
-<table>
-{% for todo_item in todo_items %}
-<tr>
-  <td><input type="checkbox" name="items[]" value="{{todo_item.key_id}}" {% if todo_item.completed %} checked="checked" {% endif %}/></td>
-  <td><a href="#" onclick="return true;">{{ todo_item.title }} </a></td>
-  <td>{{todo_item.ctime}}</td>
-  <td>{{todo_item.mtime}}</td>
-</tr>
-{% endfor %}
-</table>
+
+{% include "todo_items.html" %}
+
 </div>
 
 <div id="statusbar">&nbsp;</div>

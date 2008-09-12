@@ -1,51 +1,124 @@
 #dashboard div {
-    border:0px;
+    border: 0px;
     padding: 0px;
     margin: 0px;
 }
 div#dashboard {
-    background: white;
-}
-div#tabbar {
-    background:white;
-    display:block;
+    background: orange;
+    border: 1px solid orange;
 }
 
-div#tabbar ul, div#tabbar ul li {
-    display: inline;
-    padding: 0px; margin: 0px;
+
+div#tabbar ul {
+    padding: 0px; margin: 0px; border: 0px;
+    display: block;
 }
 
+div#tabbar ul li {
+    float: left;
+    display: block;
+    margin: 0px; border: 0px;
+    padding: 4px 10px;
+    background: orange;
+}
+
+div#tabbar a, div#tabbar a:visited {
+    color: white;
+    padding: 0px; margin: 0px; border: 0px;
+}
+div#tabbar li.selected {
+    background: #0c50ff;
+}
+div.clearboth { clear: both; }
 div#menubar {
     background:#0c50ff;
     color: white;
+    clear: both;
 }
-div#menubar ul, div#menubar ul li {
-    display: inline;
-    padding: 0px; margin: 0px;
+div#menubar ul {
+    display: block;
+    padding: 0px; margin: 0px; border: 0px;
+}
+div#menubar ul li {
+    display: block;
+    float: left;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    padding: 0px 2px;
+    margin: 4px;
 }
 div#menubar a, div#menubar a:visited {
     color: white;
+    border: solid 1px white;
+    padding: 0px 2px;
+}
+div#menubar a:active, div#menubar a:hover {
+    color: #0c50ff;
+    background: white;
+    padding: 0px 2px;
 }
 
 div#detailbox {
     width: 400px;
-    float: right;
+    position: fixed;
+    top: 200px;
+    left: 300px;
+    background: orange;
+    display: none;
+}
+div#detailbox a, div#detailbox a:visited {
+    color: white;
 }
 div#itembox {
-    width: 496px;
     background:white;
-    float: left;
-    min-height: 320px;
-    border-right: 4px solid #0c50ff;
+    min-height: 300px;
+    overflow: auto;
+    clear: both;
 }
+
+div#itembox td {
+    white-space: nowrap;
+    overflow: hidden;
+}
+div#itembox td.checkbox, div#itembox td.categories, div#itembox td.time {
+    width: 1px;
+}
+div#itembox td.time {
+    font-size: 10px;
+    padding-right: 10px;
+}
+div#itembox td.categories {
+    font-size: 12px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+div#itembox td.title {
+    width: auto;
+    max-width: 1px;
+}
+a.tab {
+    margin: 10px;
+    background: orange;
+}
+div#itembox tr, div#itembox table {
+    width: 898px;
+    max-width: 898px;
+    overflow:hidden;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    border-collapse: collapse;
+}
+div#itembox tr.odd {
+    background: #eee;
+}
+
 div#statusbar {
     background:orange;
-    width: 900px;
     clear: both;
 }
 div#messagebar {
     background:orange;
-    width: 900px;
     text-align: center;
 }

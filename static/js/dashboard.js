@@ -1,38 +1,81 @@
 var g_currentCategory = "Inbox";
 var g_statusTimeoutID = null;
+var g_currentItem = null;
+var g_availableItems = [];
 
 function dashboard_load() {
 //    google.load("prototype", "1.6.0.2");
 }
 
 function add_item() {
+    remove_details();
     set_status("adding item");
     var value = prompt("Enter your item!");
     if(value == null) {
         set_status("canceling adding item");
         return;
     }
-//  now actually add the item
-    reload_items();
-    set_status("added item: " + value);
+    new Ajax.Request("/dashboard/new/", {
+        method: 'post',
+        onSuccess: function(transport) {
+            set_status("added item!");
+            reload_items();
+        }, onFailure: function(transport) { set_status("error!"); },
+        parameters: { title: value,
+                      body: "From web interface"
+        }});
 }
 
 function reload_items() {
-    // uses g_currentCategory
+    show_details(g_currentItem);
+    new Ajax.Updater('itembox', '/dashboard/itemlist', {
+            parameters: { 'category': g_currentCategory } });
 }
 
 function switch_tab(tab_name) {
+    $("tab_"+g_currentCategory).className = "";
+    remove_details();
     g_currentCategory = tab_name;
     reload_items();
-    set_status("switching tab");
+    $("tab_"+g_currentCategory).className = "selected";
+    new Ajax.Updater('menubar', '/dashboard/menu', {
+            parameters: { 'category': tab_name },
+            method: 'get' });
 }
 
 function complete_items() {
     set_status("marking items as complete");
+    items_action("complete");
+}
+function incomplete_items() {
+    set_status("marking items as incomplete");
+    items_action("incomplete");
+}
+function delete_items() {
+    set_status("marking items as deleted");
+    items_action("archive");
 }
 
-function archive_items() {
-    set_status("archiving items");
+
+function items_action(action) {
+    var items = [];
+    $$(".item_checkbox").forEach(function(item) {
+        if(item.checked) items.push(item.value); });
+    new Ajax.Request("/dashboard/batch_edit/", {
+            method: 'post',
+            onSuccess: function(transport) {
+                reload_items();
+                set_status("success!");
+            }, onFailure: function(transport) { set_status("error!"); },
+            parameters: { action: action,
+                          items: items.join(",")
+            }});
+}
+
+function check_all(checked) {
+    $$(".item_checkbox").forEach(function(item) {
+        item.checked = checked;
+    });
 }
 
 function set_status(msg) {
@@ -49,4 +92,33 @@ function set_status(msg) {
         $('statusbar').innerHTML = msg;
     else
         $('statusbar').innerHTML = "&nbsp;";
+}
+
+function show_details(item_id) {
+    g_currentItem = item_id;
+    $('detailbox').style.display = "none";
+    $('detailbox_content').innerHTML = "";
+    if(item_id != null) {
+        new Ajax.Updater('detailbox_content', '/dashboard/detail/' + item_id, {
+            method: 'get',
+            parameters: {},
+            onComplete: function() {
+                $('detailbox').style.display = "block";
+            }
+        });
+    }
+}
+
+function edit_item(item_id) {
+    new Ajax.Request("/dashboard/edit/" + item_id, {
+        method: 'post',
+        onSuccess: function(transport) { remove_details(); reload_items(); },
+        onFailure: function(transport) { set_status("error!"); },
+        parameters: { completed: $F('edit_completed'),
+                      title: $F('edit_title'),
+                      body: $F('edit_body') }});
+}
+
+function remove_details() {
+    show_details(null);
 }
