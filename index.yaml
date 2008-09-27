@@ -19,7 +19,7 @@ indexes:
   - name: mtime
     direction: desc
 
-# Used 367 times in query history.
+# Used 371 times in query history.
 - kind: TodoItem
   properties:
   - name: archived

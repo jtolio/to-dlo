@@ -5,6 +5,23 @@
 
 {% block body %}
 
+<h3> General settings </h3>
+
+<p>This setting changes what is the first tab selected when you first open your
+dashboard, and which category cell-phone entered todo items are placed in.
+
+<form method="post" action="/dashboard/settings/default_category/">
+Default Category: <select name="default_category">
+<option {% ifequal "Incomplete" default_category %} selected="selected" {% endifequal %}>Incomplete</option>
+{% for category in categories %}
+<option {% ifequal category.name default_category %} selected="selected" {% endifequal %}>{{category.name}}</option>
+{% endfor %}
+</select> <input type="submit" value="Change"/>
+</form>
+</p><br/>
+
+<h3> Phone settings </h3>
+
 <table><tr><th>Phone number</th><td></td><td></td></tr>
 {% for phone_number in phone_numbers %}
 <tr>

@@ -5,7 +5,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
 from google.appengine.api import mail
-from models import TodoItem, Phone
+from models import TodoItem, Phone, GetDefaultCategory
 from private import HMAC_KEY
 
 class TextMarkRequest(webapp.RequestHandler):
@@ -47,10 +47,17 @@ class New(TextMarkRequest):
         if len(self.msg.strip()) <= 0:
             return self.response.out.write("No todo item provided.")
 
+        try:
+            cat_obj = list(Category.all().filter("user =", user).filter(
+                    "name =", GetDefaultCategory(user)).fetch(1))[1]
+        except:
+            cat_obj = None
+
         TodoItem(
                 user=phone_numbers[0].user,
                 title=self.msg,
                 body="from %s" % self.phone_number,
+                category=cat_obj
             ).put()
 
         return

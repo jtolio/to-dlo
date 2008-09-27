@@ -12,6 +12,11 @@
 {% block body_tags %} onload="dashboard_load();" {% endblock %}
 {% block body %}
 
+<script><!--
+g_currentCategory = "{{category}}";
+//-->
+</script>
+
 <noscript><h1 style="color:red"> This site requires Javascript! Please enable it!</h1></noscript>
 <form method="post" onsubmit="return false;">
 <div id="dashboard">
