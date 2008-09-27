@@ -5,7 +5,7 @@ from google.appengine.ext import webapp
 from google.appengine.api import users
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
-from models import TodoItem, Category
+from models import TodoItem, Category, GetDefaultCategory, SetDefaultCategory
 
 # TODO(jtolds): make sure escaping is happening
 #               use gmail design of fixed amount of labels and archiving
@@ -36,7 +36,7 @@ class Dashboard(webapp.RequestHandler):
   def get(self):
     user = users.get_current_user()
     logout_url = users.create_logout_url("/")
-    category = "Incomplete"
+    category = GetDefaultCategory(user)
     todo_items, have_todo_items = GetTodoItems(user, category)
     categories = GetCategories(user)
     self.response.out.write(template.render("templates/dashboard.html",
@@ -90,9 +90,13 @@ class RemoveCategory(webapp.RequestHandler):
     def post(self):
         user = users.get_current_user()
         category = self.request.get('name')
+        default_category = GetDefaultCategory(user)
         cat_objs = Category.all().filter("user =", user).filter("name =",
                 category)
         for cat_obj in cat_objs:
+            if cat_obj.name == default_category:
+                SetDefaultCategory(user, "Incomplete")
+                default_category = "Incomplete"
             for item in cat_obj.items:
                 item.category = None
                 item.put()
@@ -106,11 +110,11 @@ class NewTodoItem(webapp.RequestHandler):
   def get(self): return self.redirect("/dashboard")
   def post(self):
     user = users.get_current_user()
-    cat_obj = list(Category.all().filter("user =", user).filter("name =", self.request.get('category')).fetch(1))
-    if len(cat_obj) != 1:
-        cat_obj = None
-    else:
-        cat_obj = cat_obj[0]
+    try:
+        cat_obj = list(Category.all().filter("user =", user).filter("name =",
+                self.request.get('category')).fetch(1))[1]
+    except: cat_obj = None
+
     todo_item = TodoItem(
         user=user,
         title=self.request.get('title'),

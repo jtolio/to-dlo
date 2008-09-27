@@ -4,7 +4,8 @@ from google.appengine.ext import webapp
 from google.appengine.api import users
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
-from models import TodoItem, Phone
+from models import TodoItem, Phone, GetDefaultCategory, SetDefaultCategory, \
+        Category
 import utils
 
 VALID_PHONE_CHARS = "+0123456789"
@@ -14,7 +15,8 @@ class Settings(webapp.RequestHandler):
     user = users.get_current_user()
     logout_url = users.create_logout_url("/")
     phone_numbers = Phone.all().filter('user =', user)
-
+    default_category = GetDefaultCategory(user)
+    categories = list(Category.all().filter("user =", user))
     self.response.out.write(template.render("templates/settings.html",
         locals()))
 
@@ -51,6 +53,13 @@ class DeletePhone(webapp.RequestHandler):
         Phone.get_by_id(int(phone_id)).delete()
         return self.redirect("/dashboard/settings")
 
+class DefaultCategory(webapp.RequestHandler):
+    def get(self): return self.redirect("/dashboard/settings")
+    def post(self):
+        user = users.get_current_user()
+        SetDefaultCategory(user, self.request.get("default_category"))
+        return self.redirect("/dashboard/settings")
+
 class Redirect(webapp.RequestHandler):
   def get(self):
     return self.redirect("/")
@@ -61,6 +70,7 @@ def main():
       ('/dashboard/settings/*', Settings),
       ('/dashboard/settings/add_phone/*', AddPhone),
       ('/dashboard/settings/delete_phone/([a-zA-Z0-9]*)/*', DeletePhone),
+      ('/dashboard/settings/default_category/*', DefaultCategory),
       ('.*', Redirect),
     ], debug=False)
   util.run_wsgi_app(app)

@@ -21,6 +21,10 @@ class Category(ExtendedModel):
   user = db.UserProperty(required=True)
   name = db.StringProperty(required=True)
 
+class DefaultCategory(ExtendedModel):
+  user = db.UserProperty(required=True)
+  name = db.StringProperty(required=True)
+
 class TodoItem(ExtendedModel):
   user = db.UserProperty(required=True)
   ctime = db.DateTimeProperty(auto_now_add=True, required=True)
@@ -30,3 +34,15 @@ class TodoItem(ExtendedModel):
   completed = db.BooleanProperty(default=False)
   archived = db.BooleanProperty(default=False)
   category = db.ReferenceProperty(Category, collection_name="items")
+
+def GetDefaultCategory(user):
+    try:
+      category = list(DefaultCategory.all().filter("user =", user).fetch(1))[0]
+    except: return "Incomplete"
+    return category.name
+
+def SetDefaultCategory(user, category):
+    try:
+      list(DefaultCategory.all().filter("user =", user).fetch(1))[0].delete()
+    except: pass
+    DefaultCategory(name=category,user=user).put()

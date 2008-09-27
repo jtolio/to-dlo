@@ -1,4 +1,4 @@
-var g_currentCategory = "Incomplete";
+var g_currentCategory = null;
 var g_statusTimeoutID = null;
 var g_currentItem = null;
 var g_availableItems = [];
