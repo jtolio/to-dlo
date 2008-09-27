@@ -1,34 +1,44 @@
 #!/usr/bin/env python
 
+import re
 from google.appengine.ext import webapp
 from google.appengine.api import users
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
-from models import TodoItem
+from models import TodoItem, Category
 
-# TODO(jtolds): make sure each user has an email instantiation
-#               make sure escaping is happening
+# TODO(jtolds): make sure escaping is happening
 #               use gmail design of fixed amount of labels and archiving
 
+NON_SAFE_CHARACTERS = re.compile("[^a-zA-Z0-9_]")
+
 def GetTodoItems(user, category):
-    if category not in ("Inbox", "Completed"):
-        return [], False
-    todo_items = TodoItem.all().filter("user =", user)\
-            .filter("archived =", False)
-    if category == "Inbox":
-        todo_items = todo_items.filter("completed =", False)
+    if category == "Incomplete":
+        todo_items = TodoItem.all().filter("user =", user)\
+                .filter("archived =", False).filter("completed =", False)
     elif category == "Completed":
-        todo_items = todo_items.filter("completed =", True)
-    todo_items = list(todo_items.order("completed").order("-mtime"))
+        todo_items = TodoItem.all().filter("user =", user)\
+                .filter("archived =", False).filter("completed =", True)
+    else:
+        category_obj = Category.all().filter("user =", user).filter("name =",
+                category).fetch(1)
+        if(len(category_obj) != 1): return [], False
+        todo_items = category_obj[0].items.filter("archived =", False)\
+                .filter("completed =", False)
+    todo_items = list(todo_items.order("-mtime"))
     return todo_items, len(todo_items) != 0
+
+def GetCategories(user):
+    return list(Category.all().filter("user =", user))
 
 class Dashboard(webapp.RequestHandler):
   def post(self): return self.redirect("/dashboard")
   def get(self):
     user = users.get_current_user()
     logout_url = users.create_logout_url("/")
-    category = "Inbox"
+    category = "Incomplete"
     todo_items, have_todo_items = GetTodoItems(user, category)
+    categories = GetCategories(user)
     self.response.out.write(template.render("templates/dashboard.html",
         locals()))
 
@@ -54,18 +64,58 @@ class ItemDetail(webapp.RequestHandler):
 class CategoryMenu(webapp.RequestHandler):
     def post(self): return self.redirect("/dashboard")
     def get(self):
+        user = users.get_current_user()
         category = self.request.get("category")
+        categories = GetCategories(user)
         self.response.out.write(template.render(
                 "templates/menu_bar.html", locals()))
+
+class AddCategory(webapp.RequestHandler):
+    def get(self): return self.redirect("/dashboard")
+    def post(self):
+        user = users.get_current_user()
+        category = self.request.get('name')
+        if (category in ("Incomplete", "Completed") or
+                NON_SAFE_CHARACTERS.search(category)):
+            return self.error(500)
+        new_category = Category(name=category, user=user)
+        new_category.put()
+        del new_category
+        categories = GetCategories(user)
+        self.response.out.write(template.render(
+                "templates/category_list.html", locals()))
+
+class RemoveCategory(webapp.RequestHandler):
+    def get(self): return self.redirect("/dashboard")
+    def post(self):
+        user = users.get_current_user()
+        category = self.request.get('name')
+        cat_objs = Category.all().filter("user =", user).filter("name =",
+                category)
+        for cat_obj in cat_objs:
+            for item in cat_obj.items:
+                item.category = None
+                item.put()
+            cat_obj.delete()
+        categories = GetCategories(user)
+        self.response.out.write(template.render(
+                "templates/category_list.html", {"user": user,
+                "categories": categories}))
 
 class NewTodoItem(webapp.RequestHandler):
   def get(self): return self.redirect("/dashboard")
   def post(self):
     user = users.get_current_user()
+    cat_obj = list(Category.all().filter("user =", user).filter("name =", self.request.get('category')).fetch(1))
+    if len(cat_obj) != 1:
+        cat_obj = None
+    else:
+        cat_obj = cat_obj[0]
     todo_item = TodoItem(
         user=user,
         title=self.request.get('title'),
         body=self.request.get('body'),
+        category=cat_obj
       )
     todo_item.put()
     return self.response.out.write("OK")
@@ -103,6 +153,13 @@ class BatchEdit(webapp.RequestHandler):
     user = users.get_current_user()
     items = set((TodoItem.get_by_id(int(x))
             for x in self.request.get('items').split(',')))
+    if self.request.get('action') == "category":
+        cat_obj = list(Category.all().filter("user =", user).filter("name =",
+                self.request.get('variable')).fetch(1))
+        if len(cat_obj) != 1:
+            cat_obj = None
+        else:
+            cat_obj = cat_obj[0]
     for item in items:
         if self.request.get('action') == "complete":
             item.completed = True
@@ -110,6 +167,8 @@ class BatchEdit(webapp.RequestHandler):
             item.completed = False
         elif self.request.get('action') == "archive":
             item.archived = True
+        elif self.request.get('action') == "category":
+            item.category = cat_obj
         else:
             continue
         item.put()
@@ -130,6 +189,8 @@ def main():
 #      ('/dashboard/delete/([a-zA-Z0-9]*)/*', DeleteTodoItem),
       ('/dashboard/batch_edit/*', BatchEdit),
       ('/dashboard/menu/*', CategoryMenu),
+      ('/dashboard/add_category/*', AddCategory),
+      ('/dashboard/remove_category/*', RemoveCategory),
       ('.*', Redirect),
     ], debug=False)
   util.run_wsgi_app(app)

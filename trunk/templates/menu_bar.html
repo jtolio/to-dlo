@@ -11,6 +11,13 @@
 {% endifnotequal %}
 <li>Actions:</li>
 <li><a href="#" onclick="reload_items(); return true;">Refresh</a></li>
+{% if categories %}
+<li><a href="#" onclick="change_category(); return true;">Move to: </a>
+<select id="new_category">
+<option>No category</option>
+{% for a_category in categories %}
+<option>{{ a_category.name }}</option>
+{% endfor %}</select></li>{% endif %}
 {% ifnotequal category "Completed" %}
 <li style="float:right;"><a href="#" onclick="add_item(); return true;">Add a new todo item!</a></li>
 {% endifnotequal %}

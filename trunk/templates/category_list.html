@@ -1,0 +1,15 @@
+<ul>
+<li id="tab_Incomplete" {% ifequal "Incomplete" category %} class="selected"
+{% endifequal %}><a href="#"
+onclick="switch_tab('Incomplete'); return true;">Incomplete</a></li>
+<li id="tab_Completed" {% ifequal "Completed" category %} class="selected"
+{% endifequal %}><a href="#"
+onclick="switch_tab('Completed'); return true;">Completed</a></li>
+{% for a_category in categories %}
+<li id="tab_{{a_category.name}}" {% ifequal a_category.name category %} class="selected"
+{% endifequal %}><a href="#"
+onclick="switch_tab('{{a_category.name}}'); return true;">{{a_category.name}}</a></li>
+{% endfor %}
+<li><a href="#" onclick="new_tab(); return true;">+</a></li>
+<li><a href="#" onclick="remove_category(); return true;">-</a></li>
+</ul>

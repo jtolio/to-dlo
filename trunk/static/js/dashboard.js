@@ -1,4 +1,4 @@
-var g_currentCategory = "Inbox";
+var g_currentCategory = "Incomplete";
 var g_statusTimeoutID = null;
 var g_currentItem = null;
 var g_availableItems = [];
@@ -22,7 +22,8 @@ function add_item() {
             reload_items();
         }, onFailure: function(transport) { set_status("error!"); },
         parameters: { title: value,
-                      body: "From web interface"
+                      body: "From web interface",
+                      category: g_currentCategory
         }});
 }
 
@@ -33,7 +34,8 @@ function reload_items() {
 }
 
 function switch_tab(tab_name) {
-    $("tab_"+g_currentCategory).className = "";
+    var old_tab = $("tab_" + g_currentCategory);
+    if(old_tab != null) old_tab.className = "";
     remove_details();
     g_currentCategory = tab_name;
     reload_items();
@@ -55,9 +57,14 @@ function delete_items() {
     set_status("marking items as deleted");
     items_action("archive");
 }
+function change_category() {
+    category = $F("new_category");
+    set_status("moving items to category " + category);
+    items_action("category", category);
+}
 
 
-function items_action(action) {
+function items_action(action, variable) {
     var items = [];
     $$(".item_checkbox").forEach(function(item) {
         if(item.checked) items.push(item.value); });
@@ -68,7 +75,8 @@ function items_action(action) {
                 set_status("success!");
             }, onFailure: function(transport) { set_status("error!"); },
             parameters: { action: action,
-                          items: items.join(",")
+                          items: items.join(","),
+                          variable: variable
             }});
 }
 
@@ -121,4 +129,46 @@ function edit_item(item_id) {
 
 function remove_details() {
     show_details(null);
+}
+
+function new_tab() {
+    remove_details();
+    set_status("adding category");
+    var value = prompt("Enter the category name!");
+    if(value == null) {
+        set_status("canceling adding category");
+        return;
+    }
+    new Ajax.Request("/dashboard/add_category", {
+            parameters: { "name": value },
+            method: "post",
+            onSuccess: function(transport) {
+                $('tabbar').innerHTML = transport.responseText;
+                switch_tab(value);
+            },
+            onFailure: function(transport) {
+                alert("Invalid category name!");
+            }});
+}
+
+function remove_category(category) {
+    if(category == null) {
+        category = g_currentCategory;
+    }
+    if(category == "Incomplete" || category == "Completed") {
+        alert("Unable to remove category " + category);
+        return;
+    }
+    if(!confirm("Are you sure you want to remove category " + category + "?"))
+        return;
+    new Ajax.Request("/dashboard/remove_category", {
+            parameters: { "name": category },
+            method: "post",
+            onSuccess: function(transport) {
+                $('tabbar').innerHTML = transport.responseText;
+                switch_tab("Incomplete");
+            },
+            onFailure: function(transport) {
+                alert("Unable to remove!");
+            }});
 }

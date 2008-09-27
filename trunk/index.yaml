@@ -10,7 +10,16 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 205 times in query history.
+# Used 62 times in query history.
+- kind: TodoItem
+  properties:
+  - name: archived
+  - name: category
+  - name: completed
+  - name: mtime
+    direction: desc
+
+# Used 367 times in query history.
 - kind: TodoItem
   properties:
   - name: archived
