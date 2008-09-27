@@ -49,6 +49,7 @@ class ItemList(webapp.RequestHandler):
         logout_url = users.create_logout_url("/")
         todo_items, have_todo_items = GetTodoItems(user,
                 self.request.get('category'))
+        category = self.request.get('category')
         self.response.out.write(template.render("templates/todo_items.html",
                 locals()))
 
