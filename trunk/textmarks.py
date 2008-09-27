@@ -48,8 +48,9 @@ class New(TextMarkRequest):
             return self.response.out.write("No todo item provided.")
 
         try:
-            cat_obj = list(Category.all().filter("user =", user).filter(
-                    "name =", GetDefaultCategory(user)).fetch(1))[0]
+            cat_obj = list(Category.all().filter("user =",
+                    phone_numbers[0].user).filter("name =",
+                    GetDefaultCategory(user)).fetch(1))[0]
         except:
             cat_obj = None
 
