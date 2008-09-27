@@ -112,7 +112,7 @@ class NewTodoItem(webapp.RequestHandler):
     user = users.get_current_user()
     try:
         cat_obj = list(Category.all().filter("user =", user).filter("name =",
-                self.request.get('category')).fetch(1))[1]
+                self.request.get('category')).fetch(1))[0]
     except: cat_obj = None
 
     todo_item = TodoItem(
