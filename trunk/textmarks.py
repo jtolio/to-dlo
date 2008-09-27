@@ -5,7 +5,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
 from google.appengine.api import mail
-from models import TodoItem, Phone, GetDefaultCategory
+from models import TodoItem, Phone, GetDefaultCategory, Category
 from private import HMAC_KEY
 
 class TextMarkRequest(webapp.RequestHandler):
@@ -50,7 +50,7 @@ class New(TextMarkRequest):
         try:
             cat_obj = list(Category.all().filter("user =",
                     phone_numbers[0].user).filter("name =",
-                    GetDefaultCategory(user)).fetch(1))[0]
+                    GetDefaultCategory(phone_numbers[0].user)).fetch(1))[0]
         except:
             cat_obj = None
 
@@ -107,7 +107,7 @@ def main():
             ('/textmarks/new/*', New),
             ('/textmarks/activate/*', Activate),
             ('.*', Redirect),
-        ], debug=False)
+        ], debug=True)
     util.run_wsgi_app(app)
 
 if __name__ == '__main__':
