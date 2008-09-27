@@ -22,12 +22,8 @@
 <span class="textmessage">TODLO &lt;your item&gt;</span> to 41411.</div>
 
 <div id="tabbar">
-<ul>
-<li id="tab_Inbox" class="selected">
-<a href="#" onclick="switch_tab('Inbox'); return true;">Inbox</a></li>
-<li id="tab_Completed">
-<a href="#" onclick="switch_tab('Completed'); return true;">Completed</a></li>
-</ul></div><div id="menubar">
+{% include "category_list.html" %}
+</div><div id="menubar">
 {% include "menu_bar.html" %}
 </div>
 

@@ -4,7 +4,7 @@
 <tr class="{% cycle even,odd %}">
   <td class="checkbox"><input class="item_checkbox" type="checkbox" id="item_{{todo_item.key_id}}" value="{{todo_item.key_id}}"/></td>
   <td class="title"><a href="#" onclick="show_details({{todo_item.key_id}}); return true;">{{ todo_item.title }} </a></td>
-  <td class="categories">{% if todo_item.completed %} Completed{% else %} Inbox{% endif %}{% if todo_item.category %}, {{todo_item.category}}{% endif %}</td>
+  <td class="categories">{% if todo_item.completed %} Completed{% else %} Incomplete{% endif %}{% if todo_item.category %}, {{todo_item.category.name}}{% endif %}</td>
   <td class="time">{{todo_item.mtime|timesince}} ago</td>
 </tr>
 {% endfor %}
