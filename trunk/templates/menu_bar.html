@@ -7,8 +7,8 @@
 <li><a href="#" onclick="complete_items(); return true;">Complete</a></li>
 {% else %}
 <li><a href="#" onclick="incomplete_items(); return true;">Incomplete</a></li>
-<li><a href="#" onclick="delete_items(); return true;">Deleted</a></li>
 {% endifnotequal %}
+<li><a href="#" onclick="delete_items(); return true;">Deleted</a></li>
 <li>Actions:</li>
 <li><a href="#" onclick="reload_items(); return true;">Refresh</a></li>
 {% if categories %}
@@ -19,7 +19,7 @@
 <option>{{ a_category.name }}</option>
 {% endfor %}</select></li>{% endif %}
 {% ifnotequal category "Completed" %}
-<li style="float:right;"><a href="#" onclick="add_item(); return true;">Add a new todo item!</a></li>
+<li style="float:right;"><a href="#" onclick="add_item(); return true;">New item!</a></li>
 {% endifnotequal %}
 </ul>
 <div class="clearboth"></div>
