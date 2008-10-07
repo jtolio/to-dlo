@@ -6,6 +6,7 @@ from google.appengine.api import users
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
 from models import TodoItem, Category, GetDefaultCategory, SetDefaultCategory
+webapp.template.register_template_library('filters')
 
 # TODO(jtolds): make sure escaping is happening
 #               use gmail design of fixed amount of labels and archiving

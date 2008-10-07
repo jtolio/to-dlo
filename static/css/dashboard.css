@@ -26,6 +26,9 @@ div#tabbar a, div#tabbar a:visited {
     color: white;
     padding: 0px; margin: 0px; border: 0px;
 }
+div#tabbar a:hover, div#tabbar a:active {
+    color: white;
+}
 div#tabbar li.selected {
     background: #0c50ff;
 }
@@ -34,6 +37,7 @@ div#menubar {
     background:#0c50ff;
     color: white;
     clear: both;
+    min-height: 30px;
 }
 div#menubar ul {
     display: block;
@@ -47,6 +51,9 @@ div#menubar ul li {
     border: 0px;
     padding: 0px 2px;
     margin: 4px;
+}
+div#menubar select {
+    padding: 0px; margin: 0px;
 }
 div#menubar a, div#menubar a:visited {
     color: white;

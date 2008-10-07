@@ -6,7 +6,7 @@ body {
     background: #0c50ff;
     color: white;
     font-family: Verdana, sans-serif;
-    line-height: 1.46em;
+    line-height: 20px;
     font-size: 14px;
     padding: 0 0 20px 0;
     margin:0px;
@@ -96,10 +96,10 @@ div#bottom_links a {
 #navigation ul li {
     float: right;
     display:block;
-    padding: 0px 0px 0px 10px;
+    padding: 3px 1px 4px 10px;
 }
 #navigation ul li a, #navigation ul li a:visited {
-    padding: 5px;
+    padding: 4px;
     color: white;
     background: #0c50ff;
     border: 1px solid white;

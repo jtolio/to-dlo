@@ -10,7 +10,7 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 73 times in query history.
+# Used 82 times in query history.
 - kind: TodoItem
   properties:
   - name: archived
@@ -19,7 +19,7 @@ indexes:
   - name: mtime
     direction: desc
 
-# Used 382 times in query history.
+# Used 468 times in query history.
 - kind: TodoItem
   properties:
   - name: archived
