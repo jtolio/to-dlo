@@ -11,7 +11,7 @@
     {% if todo_item.category %} {{ todo_item.category.name }} {% endif %}
   {% endifequal %}{% endifequal %}
   </td>
-  <td class="time">{{todo_item.mtime|timesince}} ago</td>
+  <td class="time">{{todo_item.mtime|timesince|split:" "|join:"&nbsp;"}}&nbsp;ago</td>
 </tr>
 {% endfor %}
 </table>
