@@ -45,7 +45,7 @@ def main():
       ('/about', About),
       ('/faq', FAQ),
       ('/support', Support),
-    ], debug=True)
+    ], debug=False)
   util.run_wsgi_app(app)
 
 if __name__ == '__main__':
