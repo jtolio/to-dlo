@@ -107,7 +107,7 @@ def main():
             ('/textmarks/new/*', New),
             ('/textmarks/activate/*', Activate),
             ('.*', Redirect),
-        ], debug=True)
+        ], debug=False)
     util.run_wsgi_app(app)
 
 if __name__ == '__main__':
