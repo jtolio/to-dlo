@@ -41,8 +41,8 @@ class New(TextMarkRequest):
                 return self.response.out.write("Please visit "
                         "todlo.appspot.com and sign up!")
             else:
-                return self.response.out.write("Please register %s at "
-                        "todlo.appspot.com." % self.phone_number)
+                return self.response.out.write("Please register %s in your "
+                        "settings at todlo.appspot.com." % self.phone_number)
 
         if len(self.msg.strip()) <= 0:
             return self.response.out.write("No todo item provided.")
