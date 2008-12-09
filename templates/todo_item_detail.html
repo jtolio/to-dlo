@@ -1,6 +1,6 @@
 <input type="checkbox" id="edit_completed" {% if todo_item.completed %} checked="checked" {% endif %}/> Completed<br/>
-<input type="text" id="edit_title" value="{{todo_item.title}}"/><br/>
-<textarea id="edit_body">{{todo_item.body}}</textarea><br/>
+<input type="text" id="edit_title" value="{{todo_item.title}}" size=45 /><br/>
+<textarea id="edit_body" rows=7 cols=52 >{{todo_item.body}}</textarea><br/>
 <a href="#" onclick="edit_item({{todo_item.key_id}}); return true;">Edit</a><br/>
 Last edited: {{todo_item.mtime}}<br/>
 Created: {{todo_item.ctime}}<br/>
