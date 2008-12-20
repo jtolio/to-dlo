@@ -129,3 +129,7 @@ div#messagebar {
     background:orange;
     text-align: center;
 }
+span.faded {
+    color: #444;
+    font-size: smaller;
+}
