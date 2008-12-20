@@ -57,7 +57,7 @@ class New(TextMarkRequest):
         TodoItem(
                 user=phone_numbers[0].user,
                 title=self.msg,
-                body="from %s" % self.phone_number,
+                body="",
                 category=cat_obj
             ).put()
 
