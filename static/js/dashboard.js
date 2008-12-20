@@ -22,7 +22,7 @@ function add_item() {
             reload_items();
         }, onFailure: function(transport) { set_status("error!"); },
         parameters: { title: value,
-                      body: "from web interface",
+                      body: "",
                       category: g_currentCategory
         }});
 }
